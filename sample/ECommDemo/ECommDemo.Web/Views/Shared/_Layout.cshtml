@@ -23,6 +23,7 @@
                             <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
                             <li>@Html.ActionLink("Ecommerce", "Index", "Catalog", new { area = "shop" }, null)</li>
                             <li>@Html.ActionLink("Inventory", "Index", "Inventory", new { area = "logistics" }, null)</li>
+							<li>@Html.ActionLink("Ecommerce JS", "Index", "CatalogJS", new { area = "shopJS" }, null)</li>
                         </ul>
                     </nav>
                 </div>
@@ -52,13 +53,16 @@
 	<script type="text/javascript" src="/signalr/hubs"></script>
 	@Scripts.Render("~/bundles/knockout")
 	@RenderSection("scripts", required: false)
+	
+	@RenderSection("customPageScripts", false)
+	
 	<script type="text/javascript">
-		$(function () {
-			$.connection.hub.start(function () {
-				var service = $.connection.catalogHub;
-				service.echo('test').done(function (result) { alert(result); });
-			});
-		});
+		//		$(function () {
+		//			$.connection.hub.start(function () {
+		//				var service = $.connection.catalogHub;
+		//				service.echo('test').done(function (result) { alert(result); });
+		//			});
+		//		});
 	</script>
 </body>
 </html>

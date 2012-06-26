@@ -1,0 +1,185 @@
+﻿@{
+	ViewBag.Title = "Index";
+}
+<h2>
+	SignalR command demo</h2>
+<div id="itemsDiv">
+	<table border="1">
+		<thead>
+			<tr>
+				<th>
+					ItemId
+				</th>
+				<th>
+					Description
+				</th>
+				<th>
+					UnitPrice
+				</th>
+			</tr>
+		</thead>
+		<tbody data-bind="foreach: items">
+			<tr>
+				<td data-bind="text: ItemId">
+				</td>
+				<td data-bind="text: Description">
+				</td>
+				<td data-bind="text: UnitPrice">
+				</td>
+				<td>
+					<input type="button" data-bind="click: $parent.edit" value="Modifica" />
+				</td>
+				<td>
+					<input type="button" data-bind="click: $parent.del" value="Elimina" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<input type="button" id="create" value="create" />
+<input type="button" id="save" value="save" />
+<div id="itemDiv" data-bind="with: item">
+	<p>
+		Description:
+		<input data-bind="value: Name" /></p>
+	<p>
+		UnitPrice:
+		<input data-bind="value: Surname" /></p>
+</div>
+@section customPageScripts {
+	<script type="text/javascript">
+
+		$(function () {
+
+			function DemoServiceVM() {
+
+				// empty anagraphic array
+				this.items = ko.observableArray([]);
+				// reference to a copy of the object used for editing
+				this.item = ko.observable();
+
+				// hooks for signalr
+				var items = this.items;
+				var item = this.items;
+
+				// used during editing, to have a placeholder to replace
+				var itemOriginal = function () { };
+
+				// hook for having the VM instance inside SignalR callbacks, this point to the hub
+				var instance = this;
+
+				this.$create = $('#create');
+				this.$save = $('#save');
+
+				// reference to the hub
+				var service = $.connection.catalogHub;
+
+				// init the class and use the readmodel to have some data back
+				this.init = function () {
+					service.getItems()
+					.done(function (result) {
+						//alert(result);
+						items(ko.mapping.fromJS(result));
+					});
+				};
+
+				service.publish = function (message) {
+					alert(message);
+					instance.init();
+				}
+
+				//		this.edit = function (anag) {
+				//			// create a copy, we use the mapping plugin for convenience
+				//			anagraphicOriginal = anag;
+				//			var copy = ko.mapping.fromJS(ko.toJS(anag));
+				//			anagraphic(copy);
+				//		},
+
+				//		this.create = function () {
+				//			service.createAnag()
+				//			.done(function (result) {
+				//				instance.edit(ko.mapping.fromJS(result));
+				//			});
+				//		};
+
+				//		this.del = function (anag) {
+				//			// ask for confirmation
+				//			var answer = confirm('Eliminare il Modello: ' + anag.Name() + ' ?');
+				//			if (answer == 0)
+				//				return;
+
+				//			// check if it's a saved model, if not just remove it from the list
+				//			if (anag.Id() == 0)
+				//			{
+				//				anagraphics.remove(data);
+				//				return;
+				//			}
+
+				//			service.delete(anag.Id())
+				//			.done(function (result) {
+				//				if (result == true)
+				//					// observable objects are functions so I need to evaluate the function to access the object:
+				//					anagraphics().remove(anag);
+				//			});
+				//		};
+
+				//		this.save = function () {
+				//			// check if it's new or not
+
+				//			// observable objects are functions so I need to evaluate the function to access the object:
+				//			// anagraphic()
+				//			if (anagraphic().Id() == 0)
+				//			{
+				//				service.save(ko.toJS(anagraphic))
+				//				.done(function (result) {
+				//					if (result > 0) {
+				//						// copy the observable and assign it's properties befor adding it to the list
+				//						var copy = ko.mapping.fromJS(ko.toJS(anagraphic));
+				//						copy.Id(result);
+				//						anagraphics.push(copy);
+				//					};
+				//				});
+				//			}
+				//			else
+				//			{
+				//			service.save(ko.toJS(anagraphic))
+				//				.done(function (result) {
+				//					if (result > 0) {
+				//						// copy the observable and assign it's properties befor adding it to the list
+				//						var copy = ko.mapping.fromJS(ko.toJS(anagraphic));
+				//						anagraphics().replace(anagraphicOriginal, copy);
+				//					};
+				//				});
+				//			}
+				//		};
+
+				//		this.$create.click(function () {
+				//			instance.create();
+				//		});
+
+				//		this.$save.click(function () {
+				//			instance.save();
+				//		});
+
+				this.$create.click(function () {
+					service.create("Test", "Test");
+				});
+
+			};
+
+			// create an instance of the view model
+			var vm = new DemoServiceVM();
+			ko.applyBindings(vm);
+			// open up the connections before calling the vm.init()
+			$.connection.hub.start(function () { vm.init(); });
+		});
+
+		// classes and initializations goes here
+		//		$(function () {
+		//			$.connection.hub.start(function () {
+		//				var service = $.connection.catalogHub;
+		//				service.echo('test').done(function (result) { alert(result); });
+		//			});
+		//		});
+	</script>
+}

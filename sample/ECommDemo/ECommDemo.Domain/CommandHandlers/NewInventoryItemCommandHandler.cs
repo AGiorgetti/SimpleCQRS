@@ -19,6 +19,6 @@ namespace ECommDemo.Domain.CommandHandlers
             var item = new InventoryItem(command.ItemId, command.Description);
 
             _repository.Save(item);
-        }
+		}
     }
 }

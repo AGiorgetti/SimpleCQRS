@@ -36,8 +36,7 @@ namespace ECommDemo.Domain.ShopContext
                           AggregateRootId = Guid.NewGuid()
                       });
         }
-
-
+		
         protected void OnItemCreated(ShopItemCreatedEvent e)
         {
             this.Id = e.AggregateRootId;

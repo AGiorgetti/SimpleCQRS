@@ -1,0 +1,1 @@
+﻿Some infrastructural (and experimental code) written over SimpleCQRS

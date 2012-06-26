@@ -32,7 +32,7 @@ namespace ECommDemo.Domain.InventoryContext
         }
 
 
-        protected void OnItemCreated(InventoryItemCreatedEvent e)
+		protected void OnInventoryItemCreated(InventoryItemCreatedEvent e)
         {
             this.Id = e.AggregateRootId;
             this.ItemId = e.ItemId;

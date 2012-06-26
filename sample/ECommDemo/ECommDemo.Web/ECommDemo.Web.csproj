@@ -76,6 +76,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Optimization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0-beta3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -114,9 +117,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20505.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0-beta2\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Providers">
       <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
     </Reference>
@@ -151,6 +151,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\logistics\Controllers\InventoryController.cs" />
     <Compile Include="Areas\logistics\logisticsAreaRegistration.cs" />
+    <Compile Include="Areas\shopJS\Controllers\CatalogJSController.cs" />
+    <Compile Include="Areas\shopJS\shopJSAreaRegistration.cs" />
     <Compile Include="Areas\shop\Controllers\CatalogController.cs" />
     <Compile Include="Areas\shop\Models\NewShopItemInputModel.cs" />
     <Compile Include="Areas\shop\shopAreaRegistration.cs" />
@@ -288,6 +290,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\logistics\Models\" />
     <Folder Include="Areas\logistics\Views\Shared\" />
+    <Folder Include="Areas\shopJS\Models\" />
+    <Folder Include="Areas\shopJS\Views\Shared\" />
     <Folder Include="Areas\shop\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +347,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\shop\Views\Catalog\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\shopJS\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\shopJS\Views\CatalogJS\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\shopJS\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

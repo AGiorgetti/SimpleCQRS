@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommDemo.ViewModel", "ECom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommDemo.SignalR", "ECommDemo.SignalR\ECommDemo.SignalR.csproj", "{9F0555C8-DCE7-400C-9F68-C9A494AD34AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommDemo.Infrastructure", "ECommDemo.Infrastructure\ECommDemo.Infrastructure.csproj", "{6E618A64-1B90-4AC7-BE8F-636A3A8FE94E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{9F0555C8-DCE7-400C-9F68-C9A494AD34AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F0555C8-DCE7-400C-9F68-C9A494AD34AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F0555C8-DCE7-400C-9F68-C9A494AD34AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E618A64-1B90-4AC7-BE8F-636A3A8FE94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E618A64-1B90-4AC7-BE8F-636A3A8FE94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E618A64-1B90-4AC7-BE8F-636A3A8FE94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E618A64-1B90-4AC7-BE8F-636A3A8FE94E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

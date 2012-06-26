@@ -5,15 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E1E395CE-A421-493A-9541-A860EAEA1611}</ProjectGuid>
+    <ProjectGuid>{6E618A64-1B90-4AC7-BE8F-636A3A8FE94E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ECommDemo.ViewModel</RootNamespace>
-    <AssemblyName>ECommDemo.ViewModel</AssemblyName>
+    <RootNamespace>ECommDemo.Infrastructure</RootNamespace>
+    <AssemblyName>ECommDemo.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,24 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\packages\mongocsharpdriver.1.4.2\lib\net35\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\packages\mongocsharpdriver.1.4.2\lib\net35\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SignalR">
-      <HintPath>..\packages\SignalR.Server.0.5.1.1\lib\net40\SignalR.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,31 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Inventory\InventoryService.cs" />
-    <Compile Include="IReader.cs" />
-    <Compile Include="IWriter.cs" />
+    <Compile Include="ICommandWithPayload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shop\CatalogService.cs" />
-    <Compile Include="Inventory\InventoryItemDenormalizer.cs" />
-    <Compile Include="Shop\ShopItemDenormalizer.cs" />
-    <Compile Include="Support\DomainEventHandlersInstaller.cs" />
-    <Compile Include="Support\ViewModelInstaller.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\SimpleCqrs\SimpleCqrs.csproj">
       <Project>{E04C12B5-A6D3-4D64-9F38-896BEE68162E}</Project>
       <Name>SimpleCqrs %28SimpleCQRS\SimpleCqrs%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECommDemo.Domain\ECommDemo.Domain.csproj">
-      <Project>{7A0D79F7-444B-48B1-993F-5818E60C5FCE}</Project>
-      <Name>ECommDemo.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
