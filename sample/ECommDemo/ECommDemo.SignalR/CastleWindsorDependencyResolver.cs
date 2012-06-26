@@ -59,20 +59,22 @@ namespace ECommDemo.SignalR
 		public override void Register(Type serviceType, Func<object> activator)
 		{
 			// cannot override registrations in windsor
-			if (serviceType == typeof(IAssemblyLocator))
-			{
-				base.Register(serviceType, activator);
-				return;
-			}
+			//if (serviceType == typeof(IAssemblyLocator))
+			//{
+			//    base.Register(serviceType, activator);
+			//    return;
+			//}
 
 			if (_container != null)
-				_container.Register(Component.For(serviceType).UsingFactoryMethod<object>(activator, true));
+				//_container.Register(Component.For(serviceType).UsingFactoryMethod<object>(activator, true));
 
-				// cannot unregister components in windsor
+				// cannot unregister components in windsor, so we use a trick
+				_container.Register(Component.For(serviceType).UsingFactoryMethod<object>(activator, true).OverridesExistingRegistration());
+				
 				//if (_container.Kernel.HasComponent(serviceType))
 				//{
-				//    var model = (_container.Kernel as IKernelInternal).GetHandler(serviceType).ComponentModel;
-				//    _container.Register(Component.For(serviceType).UsingFactoryMethod<object>(activator, true));
+				//    // var model = (_container.Kernel as IKernelInternal).GetHandler(serviceType).ComponentModel;
+				//    _container.Register(Component.For(serviceType).UsingFactoryMethod<object>(activator, true).OverridesExistingRegistration());
 				//}
 				//else
 				//    _container.Register(Component.For(serviceType).UsingFactoryMethod<object>(activator, true));
@@ -85,8 +87,24 @@ namespace ECommDemo.SignalR
 		}
 
 		private List<ComponentRegistration<object>> _lazyRegistrations = new List<ComponentRegistration<object>>();
+	}
 
-
-
+	public static class WindsorTrickyExtensions
+	{
+		/// <summary>
+		/// Overrideses the existing registration:
+		/// to overide an existiong component registration you need to do two things:
+		/// 1- give it a name.
+		/// 2- set it as default.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="componentRegistration">The component registration.</param>
+		/// <returns></returns>
+		public static ComponentRegistration<T> OverridesExistingRegistration<T>(this ComponentRegistration<T> componentRegistration) where T : class
+		{
+			return componentRegistration
+				.Named(Guid.NewGuid().ToString())
+				.IsDefault();
+		}
 	}
 }
