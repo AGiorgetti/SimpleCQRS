@@ -1,4 +1,5 @@
-﻿using SimpleCqrs.Domain;
+﻿using System;
+using SimpleCqrs.Domain;
 
 namespace SimpleCqrs.Commanding
 {
@@ -6,29 +7,38 @@ namespace SimpleCqrs.Commanding
         where TCommand : ICommandWithAggregateRootId
         where TAggregateRoot : AggregateRoot, new()
     {
-        private readonly IDomainRepository domainRepository;
-
-        protected AggregateRootCommandHandler() : this(ServiceLocator.Current.Resolve<IDomainRepository>())
+        private readonly IDomainRepositoryResolver _domainRepositoryResolver;
+        protected AggregateRootCommandHandler() : this( ServiceLocator.Current.Resolve<IDomainRepositoryResolver>())
         {
         }
 
-        protected AggregateRootCommandHandler(IDomainRepository domainRepository)
+        protected AggregateRootCommandHandler(IDomainRepositoryResolver domainRepositoryResolver)
         {
-            this.domainRepository = domainRepository;
+            this._domainRepositoryResolver = domainRepositoryResolver;
         }
 
         void IHandleCommands<TCommand>.Handle(ICommandHandlingContext<TCommand> handlingContext)
         {
             var command = handlingContext.Command;
 
-            var aggregateRoot = domainRepository.GetById<TAggregateRoot>(command.AggregateRootId);
+            var domainRepository = _domainRepositoryResolver.GetRepository(null);
+            try
+            {
+                var aggregateRoot = domainRepository.GetById<TAggregateRoot>(command.AggregateRootId);
 
-            ValidateTheCommand(handlingContext, command, aggregateRoot);
+                ValidateTheCommand(handlingContext, command, aggregateRoot);
 
-            Handle(command, aggregateRoot);
+                Handle(command, aggregateRoot);
 
-            if(aggregateRoot != null)
-                domainRepository.Save(aggregateRoot);
+                if (aggregateRoot != null)
+                    domainRepository.Save(aggregateRoot);
+            }
+            finally 
+            {
+                if (domainRepository != null)
+                    _domainRepositoryResolver.Release(domainRepository);
+            }
+
         }
 
         private void ValidateTheCommand(ICommandHandlingContext<TCommand> handlingContext, TCommand command, TAggregateRoot aggregateRoot)

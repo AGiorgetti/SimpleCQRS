@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using ECommDemo.Commanding.Commands;
 using ECommDemo.Domain.CommandHandlers;
 using SimpleCqrs;
+using SimpleCqrs.Domain;
 using SimpleCqrs.EventStore.MongoDb;
 using SimpleCqrs.Eventing;
 using SimpleCqrs.Windsor;
@@ -24,6 +26,29 @@ namespace ECommDemo.Domain
             _eventStore = eventStore;
             _snapshotStore = snapshotStore;
             _assembliesToScan = assemblies;
+        }
+
+        protected override SimpleCqrs.Domain.IDomainRepositoryResolver GetDomainRepositoryResolver(IServiceLocator locator)
+        {
+            _container.Register(
+                    Component
+                        .For<IDomainRepository>()
+                        .Instance(new DomainRepository(
+                            new MongoEventStore("server=localhost;database=ecomm-a"),
+                            new MongoSnapshotStore("server=localhost;database=ecomm-a"), 
+                            locator.Resolve<IEventBus>()))
+                        .Named("dr-a"),
+                    Component
+                        .For<IDomainRepository>()
+                        .Instance(new DomainRepository(
+                            new MongoEventStore("server=localhost;database=ecomm-b"),
+                            new MongoSnapshotStore("server=localhost;database=ecomm-b"),
+                            locator.Resolve<IEventBus>()))
+                        .Named("dr-b")
+                );
+
+
+            return new MultiTenantDomainRepositoryResolver(locator);
         }
 
         protected override WindsorServiceLocator GetServiceLocator()

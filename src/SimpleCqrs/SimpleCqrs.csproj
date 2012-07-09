@@ -43,7 +43,6 @@
     <Compile Include="Commanding\CommandHandlerNotFoundException.cs" />
     <Compile Include="Commanding\CommandInvokerDictionaryBuilderHelpers.cs" />
     <Compile Include="Commanding\CommandWithAggregateRootId.cs" />
-    <Compile Include="Commanding\CreateCommandHandler.cs" />
     <Compile Include="Commanding\DuplicateCommandHandlersException.cs" />
     <Compile Include="Commanding\ExecuteTimeoutException.cs" />
     <Compile Include="Commanding\ICommand.cs" />
@@ -60,11 +59,13 @@
     <Compile Include="Domain\DomainRepository.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Domain\DefaultDomainRepositoryResolver.cs" />
     <Compile Include="Domain\Entity.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Domain\EntityCollection.cs" />
     <Compile Include="Domain\EventModifier.cs" />
+    <Compile Include="Domain\IDomainRepositoryResolver.cs" />
     <Compile Include="Domain\IEventModification.cs" />
     <Compile Include="IHaveATestMode.cs" />
     <Compile Include="Domain\IDomainRepository.cs">

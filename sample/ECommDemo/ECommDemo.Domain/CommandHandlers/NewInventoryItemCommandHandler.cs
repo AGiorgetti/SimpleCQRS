@@ -7,18 +7,20 @@ namespace ECommDemo.Domain.CommandHandlers
 {
     public class NewInventoryItemCommandHandler : CommandHandler<NewInventoryItemCommand>
     {
-        private readonly IDomainRepository _repository;
+        private readonly IDomainRepositoryResolver _repositoryResolver;
 
-        public NewInventoryItemCommandHandler(IDomainRepository repository)
+        public NewInventoryItemCommandHandler(IDomainRepositoryResolver repositoryResolver)
         {
-            _repository = repository;
+            _repositoryResolver = repositoryResolver;
         }
 
         public override void Handle(NewInventoryItemCommand command)
         {
             var item = new InventoryItem(command.ItemId, command.Description);
 
-            _repository.Save(item);
-		}
+            var repo = _repositoryResolver.GetRepository(command.TenantId);
+            repo.Save(item);
+            _repositoryResolver.Release(repo);
+        }
     }
 }

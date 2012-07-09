@@ -22,7 +22,7 @@ namespace ECommDemo.Domain.EventHandlers
 
         public void Handle(ShopItemCreatedEvent e)
         {
-            _bus.Send(new NewInventoryItemCommand(e.ItemId, e.Description));
+            _bus.Send(new NewInventoryItemCommand(e.TenantId, e.ItemId, e.Description));
         }
     }
 }

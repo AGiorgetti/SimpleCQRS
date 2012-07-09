@@ -46,6 +46,7 @@ namespace ECommDemo.Web.Areas.shop.Controllers
             }
 
             Bus.Send(new NewShopItemCommand(
+                "a",
                 model.ItemId,
                 model.Description
             ));

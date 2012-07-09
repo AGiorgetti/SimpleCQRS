@@ -9,7 +9,7 @@ namespace SimpleCqrs.Domain
 {
     public abstract class Entity : IHaveATestMode
     {
-        private readonly Queue<EntityDomainEvent> uncommittedEvents = new Queue<EntityDomainEvent>();
+        private readonly Queue<EntityDomainEvent> _uncommittedEvents = new Queue<EntityDomainEvent>();
 
         public AggregateRoot AggregateRoot { get; set; }
         public Guid Id { get; protected set; }
@@ -17,7 +17,7 @@ namespace SimpleCqrs.Domain
 
         public ReadOnlyCollection<EntityDomainEvent> UncommittedEvents
         {
-            get { return new ReadOnlyCollection<EntityDomainEvent>(uncommittedEvents.ToList()); }
+            get { return _uncommittedEvents.ToList().AsReadOnly(); }
         }
 
         public void Apply(EntityDomainEvent domainEvent)
@@ -27,7 +27,7 @@ namespace SimpleCqrs.Domain
             if(!((IHaveATestMode)this).IsInTestMode)
                 AggregateRoot.Apply(domainEvent);
 
-            uncommittedEvents.Enqueue(domainEvent);
+            _uncommittedEvents.Enqueue(domainEvent);
             ApplyEventToInternalState(domainEvent);
         }
 
@@ -41,9 +41,12 @@ namespace SimpleCqrs.Domain
 
         public void CommitEvents()
         {
-            uncommittedEvents.Clear();
+            _uncommittedEvents.Clear();
         }
 
+        //
+        // TODO: Cache event handler
+        //
         private void ApplyEventToInternalState(EntityDomainEvent domainEvent)
         {
             var domainEventType = domainEvent.GetType();

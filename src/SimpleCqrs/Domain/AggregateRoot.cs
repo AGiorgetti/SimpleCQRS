@@ -9,15 +9,15 @@ namespace SimpleCqrs.Domain
 {
     public abstract class AggregateRoot
     {
-        private readonly Queue<DomainEvent> uncommittedEvents = new Queue<DomainEvent>();
-        private readonly List<Entity> entities = new List<Entity>(); 
+        private readonly Queue<DomainEvent> _uncommittedEvents = new Queue<DomainEvent>();
+        private readonly List<Entity> _entities = new List<Entity>(); 
 
         public Guid Id { get; protected internal set; }
         public int LastEventSequence { get; protected internal set; }
 
         public ReadOnlyCollection<DomainEvent> UncommittedEvents
         {
-            get { return new ReadOnlyCollection<DomainEvent>(uncommittedEvents.ToList()); }
+            get { return new ReadOnlyCollection<DomainEvent>(_uncommittedEvents.ToList()); }
         }
 
         public void LoadFromHistoricalEvents(params DomainEvent[] domainEvents)
@@ -39,23 +39,26 @@ namespace SimpleCqrs.Domain
             
             EventModifier.Modify(domainEvent);
 
-            uncommittedEvents.Enqueue(domainEvent);
+            _uncommittedEvents.Enqueue(domainEvent);
         }
 
         public void CommitEvents()
         {
-            uncommittedEvents.Clear();
-            entities.ForEach(entity => entity.CommitEvents());
+            _uncommittedEvents.Clear();
+            _entities.ForEach(entity => entity.CommitEvents());
         }
 
         public void RegisterEntity(Entity entity)
         {
             entity.AggregateRoot = this;
-            entities.Add(entity);
+            _entities.Add(entity);
         }
 
         private void ApplyEventToInternalState(DomainEvent domainEvent)
         {
+            //
+            // TODO: cache handler method
+            //
             var domainEventType = domainEvent.GetType();
             var domainEventTypeName = domainEventType.Name;
             var aggregateRootType = GetType();
@@ -78,10 +81,8 @@ namespace SimpleCqrs.Domain
             var entityDomainEvent = domainEvent as EntityDomainEvent;
             if (entityDomainEvent == null) return;
 
-            var list = entities
-                .Where(entity => entity.Id == entityDomainEvent.EntityId).ToList();
-            list
-                .ForEach(entity => entity.ApplyHistoricalEvents(entityDomainEvent));
+            var list = _entities.Where(entity => entity.Id == entityDomainEvent.EntityId).ToList();
+            list.ForEach(entity => entity.ApplyHistoricalEvents(entityDomainEvent));
         }
 
         private static string GetEventHandlerMethodName(string domainEventTypeName)

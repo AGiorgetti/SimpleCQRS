@@ -45,7 +45,7 @@ namespace SimpleCqrs
             serviceLocator.Register(GetEventBus(serviceLocator));
             serviceLocator.Register(GetSnapshotStore(serviceLocator));
             serviceLocator.Register(GetEventStore(serviceLocator));
-            serviceLocator.Register<IDomainRepository, DomainRepository>();
+            serviceLocator.Register(GetDomainRepositoryResolver(serviceLocator));
             RegisterComponents(serviceLocator);
 
             SimpleCqrs.ServiceLocator.SetCurrent(serviceLocator);
@@ -157,6 +157,13 @@ namespace SimpleCqrs
         {
             return Activator.CreateInstance<TServiceLocator>();
         }
+
+        protected virtual IDomainRepositoryResolver GetDomainRepositoryResolver(IServiceLocator locator)
+        {
+            locator.Register<IDomainRepository, DomainRepository>();
+            return new DefaultDomainRepositoryResolver();
+        }
+
 
         protected virtual IEnumerable<IRegisterComponents> GetComponentRegistrars(Type componentRegistarType, IServiceLocator serviceLocator)
         {

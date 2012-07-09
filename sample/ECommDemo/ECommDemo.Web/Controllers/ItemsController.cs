@@ -19,7 +19,7 @@ namespace ECommDemo.Web.Controllers
 
         public ActionResult Index()
         {
-            Bus.Send(new NewInventoryItemCommand("1","Articolo 1"));
+            Bus.Send(new NewInventoryItemCommand("a", "1","Articolo 1"));
             
             return Content("ok");
         }
