@@ -30,8 +30,6 @@ namespace ECommDemo.SignalR
 				_container.Register(c);
 
 			_lazyRegistrations.Clear();
-
-
 		}
 
 		public override object GetService(Type serviceType)
@@ -86,6 +84,9 @@ namespace ECommDemo.SignalR
 			//base.Register(serviceType, activator);
 		}
 
+		// a form of laxy initialization is actually needed because the DefaultDependencyResolver starts initializing itself immediately
+		// while we now want to store everything inside CastleWindsor, so the actual registration step have to be postponed until the 
+		// container is available
 		private List<ComponentRegistration<object>> _lazyRegistrations = new List<ComponentRegistration<object>>();
 	}
 

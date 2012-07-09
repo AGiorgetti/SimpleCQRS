@@ -48,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{ECDC80
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.Windsor", "ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj", "{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.MassTransit", "Extensions\SimpleCqrs.MassTransit\SimpleCqrs.MassTransit.csproj", "{1D6B1DD3-64BF-48AF-9522-1A20E9F8914B}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SimpleCQRS.vsmdi
@@ -105,6 +107,10 @@ Global
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D6B1DD3-64BF-48AF-9522-1A20E9F8914B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D6B1DD3-64BF-48AF-9522-1A20E9F8914B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D6B1DD3-64BF-48AF-9522-1A20E9F8914B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D6B1DD3-64BF-48AF-9522-1A20E9F8914B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,5 +127,6 @@ Global
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B} = {0C8AE82D-CACF-44CD-BE4F-222041AC4699}
 		{07C2BF77-9646-4C39-BDB2-852B76AA6C75} = {51C20E77-8726-49E8-9061-161DF28973E7}
 		{EE1B7085-F7BC-48BD-B058-C33DF4CD0F74} = {51C20E77-8726-49E8-9061-161DF28973E7}
+		{1D6B1DD3-64BF-48AF-9522-1A20E9F8914B} = {51C20E77-8726-49E8-9061-161DF28973E7}
 	EndGlobalSection
 EndGlobal
